@@ -6,7 +6,7 @@ import './App.css';
 import Auth from './components/Auth';
 import Layout from './components/Layout';
 import Notification from './components/Notification';
-import { sendCartData } from './store/cart-slice';
+import { fetchData, sendCartData } from './store/cart-actions';
 import { uiActions } from './store/ui-slice';
 let isFirstRender = true;
 function App() {
@@ -14,13 +14,17 @@ function App() {
   const notification = useSelector((state) => state.ui.notification);
   const cart = useSelector((state) => state.cart);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-
+  useEffect(() => {
+    dispatch(fetchData());
+  }, [dispatch]);
   useEffect(() => {
     if (isFirstRender) {
       isFirstRender = false;
       return;
     }
-    dispatch(sendCartData(cart));
+    if (cart.changed) {
+      dispatch(sendCartData(cart));
+    }
   }, [cart, dispatch]);
   return (
     <div className="App">
