@@ -6,6 +6,7 @@ import './App.css';
 import Auth from './components/Auth';
 import Layout from './components/Layout';
 import Notification from './components/Notification';
+import { sendCartData } from './store/cart-slice';
 import { uiActions } from './store/ui-slice';
 let isFirstRender = true;
 function App() {
@@ -19,42 +20,8 @@ function App() {
       isFirstRender = false;
       return;
     }
-    const sendRequest = async () => {
-      // Send state as Sending request
-      dispatch(
-        uiActions.showNotification({
-          open: true,
-          message: 'Sending Request',
-          type: 'warning',
-        })
-      );
-      const res = await fetch(
-        'https://redux-http-64149-default-rtdb.asia-southeast1.firebasedatabase.app/cartItems.json',
-        {
-          method: 'PUT',
-          body: JSON.stringify(cart),
-        }
-      );
-      const data = await res.json();
-      // Send state as Request is successful
-      dispatch(
-        uiActions.showNotification({
-          open: true,
-          message: 'Sent Request to database Successfully',
-          type: 'success',
-        })
-      );
-    };
-    sendRequest().catch((err) => {
-      dispatch(
-        uiActions.showNotification({
-          open: true,
-          message: 'Sending Request Failed',
-          type: 'error',
-        })
-      );
-    });
-  }, [cart]);
+    dispatch(sendCartData(cart));
+  }, [cart, dispatch]);
   return (
     <div className="App">
       {notification && (
