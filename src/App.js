@@ -1,13 +1,11 @@
-import React from 'react';
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import './App.css';
 import Auth from './components/Auth';
 import Layout from './components/Layout';
 import Notification from './components/Notification';
 import { fetchData, sendCartData } from './store/cart-actions';
-import { uiActions } from './store/ui-slice';
+
 let isFirstRender = true;
 function App() {
   const dispatch = useDispatch();
